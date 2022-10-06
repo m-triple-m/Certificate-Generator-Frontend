@@ -91,12 +91,12 @@ const TemplateManager = () => {
     if (templateList.length)
       return templateList.map(({ _id, title }) => (
         // <div className="col-md-2">
-        <div className="card">
+        <div className="card" key={_id}>
           <button
             className="btn btn-danger"
             onClick={(e) => deleteTemplate(_id)}
           >
-            <i class="fas fa-trash"></i>
+            <i className="fas fa-trash"></i>
           </button>
           <img
             src="https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_1280.png"

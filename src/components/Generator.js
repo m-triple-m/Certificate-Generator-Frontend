@@ -69,6 +69,7 @@ const Generator = () => {
       console.log("success");
       const data = await res.json();
       console.log(data);
+      window.open(url+"generatedPDF/"+data.zipFile, "_self");
     }
   }
 
