@@ -3,8 +3,6 @@ import { read, utils } from "xlsx";
 import app_config from "../config";
 // import { Document, Page } from "react-pdf";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-import * as dfd from "danfojs";
-import { readCSV, DataFrame } from "danfojs";
 
 const PreviewSheet = ({ data }) => {
   return (
