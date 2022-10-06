@@ -1,38 +1,79 @@
-.App {
-  text-align: center;
+
+body{
+    background-color: #eee;
+    margin: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.big-upload-btn{
+    width: 150px;
+    height: 200px;
+    background-color: #f1f1f1;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.big-upload-btn:hover{
+    background-color: #e1e1e1;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.big-upload-btn i{
+    font-size: 50px;
+    color: #ccc;
+    transition: all 0.2s ease-in-out;
+
 }
 
-.App-link {
-  color: #61dafb;
+.big-upload-btn:hover i{
+  color: #888;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card-grid-row{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 20px;
+    
+}
+
+.digi-card{
+    border-left : 5px solid crimson;
+}
+
+.gen-card{
+    min-height: 90vh;
+}
+
+.react-pdf__Document{
+    box-shadow: 2px 2px 15px 2px #0000003b, -1px -1px 15px 2px #2c2c2c3b;
+}
+
+.upload-btn{
+    background-color: crimson;
+    /* color: white; */
+    padding: 20px 40px;
+}
+
+.generate-btn{
+    /* color: white; */
+    padding: 20px 40px;
+}
+
+.sheet-preview{
+    overflow: auto;
+    height: 55vh;
+}
+
+.digi-table thead{
+    background-color: crimson !important;
+    color: white;
+    font-size: 1.2em;
+}
+
+.digi-table td{
+    border: 1px solid crimson;
 }

@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+
 import './App.css';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import Login from './components/Login';
+import Header from './components/Header';
+import NotFound from './components/NotFound';
+import Generator from './components/Generator';
+import TemplateManager from './components/TemplateManager';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Toaster position='top-right' />
+      <BrowserRouter>
+      <Header />
+        <Routes>
+          <Route element={<Navigate to="/login" />} path='/' />
+          <Route element={<Login />} path='login' />
+          <Route element={<NotFound />} path='*' />
+          <Route element={<Generator />} path='generate' />
+          <Route element={<TemplateManager />} path='templates' />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
