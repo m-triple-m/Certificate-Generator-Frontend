@@ -3,6 +3,79 @@ import { read, utils } from "xlsx";
 import app_config from "../config";
 // import { Document, Page } from "react-pdf";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import Select from "react-select";
+import { Formik } from "formik";
+
+const GenerateSingle = ({ selPDF }) => {
+  const url = app_config.api_url + "/";
+  const technologyList = app_config.courses.map(course => ({value: course, label : course}));
+  // console.log(technologyList);
+  const generateCerti = async (formdata, { isSubmitting, resetForm }) => {
+    console.log(formdata);
+    // return;
+    const response = await fetch(url + "certificate/generatesingle", {
+      method: "POST",
+      body: JSON.stringify({
+        certificateDetails: formdata,
+        template_id: selPDF._id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+      window.open(url + "generatedPDF/" + data.pdfFile, "_self");
+    }
+  };
+
+  return (
+    <div>
+      <div className="container">
+        <div className="card my-4">
+          <div className="card-header">
+            <h4 className="m-0">Generate Single Card</h4>
+          </div>
+          <div className="card-body">
+            <Formik
+              initialValues={{
+                studentName: "",
+                technology: technologyList[0].value,
+                duration: "",
+                project: "",
+              }}
+              onSubmit={generateCerti}
+            >
+              {({ values, handleSubmit, handleChange, setFieldValue, field }) => (
+                <form onSubmit={handleSubmit}>
+                  <label>Student Name</label>
+                  <input name="studentName" onChange={handleChange} className="form-control mb-4" />
+
+                  <Select name="technology"
+                    value={values.technology.value}
+                    onChange={({ value }) => setFieldValue('technology', value)}
+                    options={technologyList}
+                  />
+                  <label>Duration</label>
+                  <input name="duration" onChange={handleChange} className="form-control mb-4" />
+
+                  <label>Mini/Minor Project Name</label>
+                  <input name="project" onChange={handleChange} className="form-control mb-4" />
+
+                  <button type="submit" className="btn btn-primary my-5">
+                    Generate Certificate
+                  </button>
+                </form>
+              )}
+            </Formik>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const PreviewSheet = ({ data }) => {
   return (
@@ -53,7 +126,7 @@ const Generator = () => {
   }, []);
 
   const generateCertificates = async () => {
-    const res = await fetch(url + "certificate/generate", {
+    const res = await fetch(url + "certificate/generatebatch", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,9 +142,9 @@ const Generator = () => {
       console.log("success");
       const data = await res.json();
       console.log(data);
-      window.open(url+"generatedPDF/"+data.zipFile, "_self");
+      window.open(url + "generatedPDF/" + data.zipFile, "_self");
     }
-  }
+  };
 
   const extractData = (e) => {
     const file = e.target.files[0];
@@ -88,7 +161,6 @@ const Generator = () => {
       console.log(data);
       setSheetData(data);
       setSheetLoaded(true);
-      
     };
     if (rABS) reader.readAsBinaryString(file);
     else reader.readAsArrayBuffer(file);
@@ -128,13 +200,18 @@ const Generator = () => {
             <h3>Generate Certificate</h3>
           </div>
           <div className="card-body">
-            <div className="row">
+            <div className="row mt-5">
               <div className="col-8">
                 <div className="container">
                   <label className="mb-2 h5">
                     Select a Template to Generate Certificate
                   </label>
                   {displayTempateOptions()}
+                  <Select
+                    value={selPDF}
+                    onChange={(e) => setSelPDF(getPDFFromId(e.target.value))}
+                    options={templateList}
+                  />
 
                   <div className="row mt-4">
                     <div className="col-4">
@@ -152,7 +229,11 @@ const Generator = () => {
                       />
                     </div>
                     <div className="col-6">
-                      <button disabled={!(selPDF && sheetLoaded)} className="btn btn-primary generate-btn h5" onClick={generateCertificates}>
+                      <button
+                        disabled={!(selPDF && sheetLoaded)}
+                        className="btn btn-primary generate-btn h5"
+                        onClick={generateCertificates}
+                      >
                         <i className="fas fa-certificate"></i> &nbsp; Generate
                         Certificates
                       </button>
@@ -177,11 +258,13 @@ const Generator = () => {
                     <Page pageNumber={1} width="500" />
                   </Document>
                 )}
+                
                 {/* {url + 'templates/' + selPDF.file} */}
 
                 {/* <img src="template.jpg" alt="template" className="img-fluid" /> */}
               </div>
             </div>
+            {selPDF && <GenerateSingle selPDF={selPDF} />}
           </div>
         </div>
       </div>
