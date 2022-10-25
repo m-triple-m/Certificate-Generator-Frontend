@@ -32,11 +32,11 @@ const GenerateSingle = ({ selPDF }) => {
   };
 
   return (
-    <div>
-      <div className="container">
+    <div >
+      <div className="container" >
         <div className="card my-4">
           <div className="card-header">
-            <h4 className="m-0">Generate Single Card</h4>
+            <h4 className="m-0">Generate Single Certificate</h4>
           </div>
           <div className="card-body">
             <Formik
@@ -53,7 +53,9 @@ const GenerateSingle = ({ selPDF }) => {
                   <label>Student Name</label>
                   <input name="studentName" onChange={handleChange} className="form-control mb-4" />
 
+                  <label>Technology</label>
                   <Select name="technology"
+                  className="mb-4"
                     value={values.technology.value}
                     onChange={({ value }) => setFieldValue('technology', value)}
                     options={technologyList}
@@ -111,6 +113,7 @@ const Generator = () => {
 
   const api_url = app_config.api_url + "/";
   const [templateList, setTemplateList] = useState([]);
+  const [templateOptions, setTemplateOptions] = useState([]);
 
   const fetchTemplates = () => {
     fetch(api_url + "template/getall")
@@ -118,6 +121,7 @@ const Generator = () => {
       .then((data) => {
         console.log(data);
         setTemplateList(data);
+        setTemplateOptions(data.map(temp => ({value: temp._id, label : temp.title})));
       });
   };
 
@@ -206,11 +210,10 @@ const Generator = () => {
                   <label className="mb-2 h5">
                     Select a Template to Generate Certificate
                   </label>
-                  {displayTempateOptions()}
+                  {/* {displayTempateOptions()} */}
                   <Select
-                    value={selPDF}
-                    onChange={(e) => setSelPDF(getPDFFromId(e.target.value))}
-                    options={templateList}
+                    onChange={(temp) => setSelPDF(getPDFFromId(temp.value))}
+                    options={templateOptions}
                   />
 
                   <div className="row mt-4">

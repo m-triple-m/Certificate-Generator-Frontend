@@ -91,9 +91,10 @@ const TemplateManager = () => {
     if (templateList.length)
       return templateList.map(({ _id, title }) => (
         // <div className="col-md-2">
-        <div className="card" key={_id}>
+        <div className="card" key={_id} style={{boxShadow: 'none'}}>
           <button
-            className="btn btn-danger"
+          style={{position: "absolute", left: "0", top: "0", zIndex: "1"}}
+            className="btn btn-danger btn-floating"
             onClick={(e) => deleteTemplate(_id)}
           >
             <i className="fas fa-trash"></i>
@@ -103,7 +104,9 @@ const TemplateManager = () => {
             alt="template"
             className="card-img-top"
           />
-          <h5>{title}</h5>
+          <div className="px-3">
+          <p className="template-name">{title.split('.')[0].slice(0, 20)}{title.split('.')[0].length>20 ? '...' : ''}</p>
+          </div>
         </div>
         // </div>
       ));

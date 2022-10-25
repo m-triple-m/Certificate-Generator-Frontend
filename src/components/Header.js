@@ -1,18 +1,30 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { CustomThemeContext } from "../Context/ThemeContext";
+import { UserContext } from "../Context/UserContext";
 
 const Header = () => {
+  const { customTheme } = useContext(CustomThemeContext);
+  const { loggedin, logout } = useContext(UserContext);
+  // console.log(customTheme);
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Navbar */}
-      <nav className="navbar navbar-expand-md navbar-light bg-light">
+      <nav
+        className={"navbar navbar-expand-md navbar-" + customTheme.headerText}
+        style={{
+          backgroundColor: customTheme.headerColor,
+        }}
+      >
         {/* Container wrapper */}
         <div className="container">
           {/* Navbar brand */}
-          <a className="navbar-brand me-2 my-2" href="https://mdbgo.com/">
+          <a className="navbar-brand me-2 my-2" href="/">
             <img
               src="digi_logo_flat.png"
-              height={32}
+              height={40}
               alt="MDB Logo"
               loading="lazy"
               style={{ marginTop: "1px" }}
@@ -44,22 +56,27 @@ const Header = () => {
                   Manage Templates
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/managecertificates">
+                  Manage Certificates
+                </NavLink>
+              </li>
             </ul>
             {/* Left links */}
             <div className="d-flex align-items-center">
-              <button type="button" className="btn btn-link px-3 me-2">
-                Login
-              </button>
-              <button type="button" className="btn btn-primary me-3">
-                Sign up for free
-              </button>
-              <a
-                className="btn btn-dark px-3"
-                href="https://github.com/mdbootstrap/mdb-ui-kit"
-                role="button"
-              >
-                <i className="fab fa-github" />
-              </a>
+              {!loggedin ? (
+                <Link to="/login" className="btn btn-dark px-3 me-2">
+                  Login
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 me-2"
+                  onClick={() => logout(() => {navigate('/login')})}
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
           {/* Collapsible wrapper */}

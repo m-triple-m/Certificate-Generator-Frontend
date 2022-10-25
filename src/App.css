@@ -41,7 +41,7 @@ body{
 }
 
 .digi-card{
-    border-left : 5px solid crimson;
+    border-left : 3px solid crimson;
 }
 
 .gen-card{
@@ -76,4 +76,14 @@ body{
 
 .digi-table td{
     border: 1px solid crimson;
+}
+.template-name{
+    font-size: 0.8em;
+    font-weight: 600;
+    color: crimson;
+    text-align: center;
+}
+
+.template-grid-card{
+    
 }
