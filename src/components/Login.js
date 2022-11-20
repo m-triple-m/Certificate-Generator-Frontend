@@ -51,14 +51,14 @@ const Login = () => {
             <h3 className="text-center">Login Here</h3>
             <hr />
             <Formik initialValues={{email : '', password : ''}} onSubmit={loginSubmit}>
-              {({values, handleChange, handleSubmit}) => (
+              {({values, handleChange, handleSubmit, isSubmitting}) => (
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input type="email" className="form-control mt-2 mb-4" name="email" onChange={handleChange} value={values.email} />
                     <label htmlFor="password">Password</label>
                     <input type="password" className="form-control mt-2 mb-4" name="password" onChange={handleChange} value={values.password} />
 
-                    <button className="mt-5 btn btn-primary w-100">Login</button>
+                    <button disabled={isSubmitting} className="mt-5 btn btn-primary w-100">Login</button>
 
                   </form>
               )}

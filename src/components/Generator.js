@@ -27,7 +27,7 @@ const GenerateSingle = ({ selPDF }) => {
     if (response.status === 200) {
       const data = await response.json();
       console.log(data);
-      window.open(url + "generatedPDF/" + data.pdfFile, "_self");
+      window.open(url + "generatedPDF/" + data.pdfFile, "_blank");
     }
   };
 
